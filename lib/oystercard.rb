@@ -18,4 +18,7 @@ def deduct(fare)
   @balance -= fare
 end
 
+def in_journey?
+end
+
 end

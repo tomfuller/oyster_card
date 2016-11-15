@@ -35,4 +35,9 @@ it "should expect the balance to decrease when a fare is charged" do
   expect(subject.balance).to eq 15
 end
 
+it "should respond to 'in_journey'" do
+  expect(subject).to respond_to(:in_journey?)
+end
+
+
 end
