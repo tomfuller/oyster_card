@@ -2,6 +2,7 @@ class Oystercard
 
   DEFAULT_VALUE = 0
   MAXIMUM_BALANCE = 90
+  MINIMUM_BALANCE = 1
   attr_accessor :balance, :status
 
 
@@ -20,6 +21,7 @@ class Oystercard
   end
 
   def touch_in
+    raise "Not enough funds. Minimum is £#{MINIMUM_BALANCE}" if balance < MINIMUM_BALANCE
     self.status = :in_journey
   end
 

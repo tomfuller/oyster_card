@@ -25,6 +25,7 @@ describe Oystercard do
   end
 
   it "touches in the card" do
+    subject.top_up(10)
     subject.touch_in
     expect(subject.status).to be :in_journey
   end
@@ -39,9 +40,13 @@ describe Oystercard do
   end
 
   it "checks card is in journey" do
+    subject.top_up(10)
     subject.touch_in
     expect(subject.in_journey?).to eq true
   end
 
+  it "prevents customer from touching in when card is below minumum balance" do
+    expect{subject.touch_in}.to raise_error "Not enough funds. Minimum is £1"
+  end
 
 end
