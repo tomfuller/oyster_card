@@ -79,22 +79,26 @@ describe Oyster do
       expect(card.entry_station).to eq station
     end
 
-    it "should save the exit station" do
-      card.touch_out(station)
-      expect(card.exit_station).to eq station
-    end
-
     it "should forget the entry station after check out" do
       card.touch_in(station)
       card.touch_out(station)
       expect(card.entry_station).to eq nil
     end
 
-    #it "should store a journey" do
-    #  card.touch_in(station)
-    #  card.touch_out(station2)
-    #  expect(card.journeys[station]).to eq station2
-    #end
+    it "should forget the exit station after storing the journey" do
+      card.touch_out(station)
+      expect(card.exit_station).to eq nil
+    end
+
+    it "should have an empty list of journeys by default" do
+      expect(card.journeys).to be_empty
+    end
+
+    it "should store a journey" do
+      card.touch_in(station)
+      card.touch_out(station2)
+      expect(card.journeys[station]).to eq station2
+    end
   end
 
 end

@@ -24,13 +24,14 @@ end
 
 def touch_out(station)
   deduct
-  delete_entry
   save_exit(station)
   save_journey
+  delete_entry
+  delete_exit
 end
 
 def save_journey
-  @journey[entry_station] = exit_station
+  @journeys[@entry_station] = @exit_station
 end
 
 def save_entry(station)
@@ -45,6 +46,10 @@ private
 
 def delete_entry
   @entry_station = nil
+end
+
+def delete_exit
+  @exit_station = nil
 end
 
 def deduct(money = MINIMUM_FARE)
