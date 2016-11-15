@@ -21,10 +21,6 @@ describe Oyster do
         expect{card.top_up(91)}.to raise_error(message)
       end
 
-      it " if we try to deduct more then we have on the balance" do
-        message = "You're poor, go and top up"
-        expect{card.deduct(10)}.to raise_error(message)
-      end
     end
   end
 
@@ -33,12 +29,6 @@ describe Oyster do
     it "should add 10 to the balance" do
       expect(card.balance).to eq 10
     end
-
-    it "should deduct 10 from the balance" do
-      card.deduct(5)
-      expect(card.balance).to eq 5
-    end
-
   end
 
   describe "When checking card status" do
@@ -57,8 +47,12 @@ describe Oyster do
       card.touch_out
       expect(card.in_journey).to eq false
     end
+
+    it "should deduct minimum fare from the balance when checking out" do
+      card.touch_in
+      expect{card.touch_out}.to change{card.balance}.by(-1)
+    end
+
   end
-
-
 
 end

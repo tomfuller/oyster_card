@@ -14,13 +14,6 @@ def top_up(money)
   @balance += money
 end
 
-
-def deduct(money)
-  message = "You're poor, go and top up"
-  fail message if overdrawn?(money)
-  @balance -= money
-end
-
 def touch_in
   message = "You're poor, go and top up"
   fail message if @balance < MINIMUM_FARE
@@ -28,17 +21,19 @@ def touch_in
 end
 
 def touch_out
+  deduct
   @in_journey = false
 end
 
 private
 
-def max_capacity?(money)
-  @balance + money > MAX_CAPACITY
+
+def deduct(money = MINIMUM_FARE)
+  @balance -= money
 end
 
-def overdrawn?(money)
-  @balance - money < 0
+def max_capacity?(money)
+  @balance + money > MAX_CAPACITY
 end
 
 end
