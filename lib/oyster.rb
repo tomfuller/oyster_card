@@ -23,12 +23,16 @@ def touch_in(station)
 end
 
 def touch_out(station)
-  deduct
+  deduct()
   save_exit(station)
   save_journey
   delete_entry
   delete_exit
 end
+
+
+
+private
 
 def save_journey
   @journeys[@entry_station] = @exit_station
@@ -41,8 +45,6 @@ end
 def save_exit(station)
   @exit_station = station
 end
-
-private
 
 def delete_entry
   @entry_station = nil

@@ -61,13 +61,6 @@ describe Oyster do
 
   describe "To keep history of journeys" do
     before(:each) {card.top_up(10)}
-    it "should return the station were we touched in" do
-      expect(card.save_entry(station)).to eq station
-    end
-
-    it "should return the station where we touched out at" do
-      expect(card.save_exit(station)).to eq station
-    end
 
     it "should take station as a variable when touching in" do
       expect(card).to respond_to(:touch_in).with(1).argument
