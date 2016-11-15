@@ -14,10 +14,12 @@ def top_up(money)
 end
 
 def max_capacity?(money)
-@balance + money > MAX_CAPACITY
+  @balance + money > MAX_CAPACITY
 end
 
-
+def deduct(money)
+  @balance -= money
+end
 
 
 
