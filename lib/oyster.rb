@@ -1,11 +1,11 @@
 class Oyster
-attr_reader :balance, :in_journey
+attr_reader :balance, :in_journey, :entry_station
 DEFAULT_BALANCE = 0
 MAX_CAPACITY = 90
 MINIMUM_FARE = 1
  def initialize(balance = DEFAULT_BALANCE)
    @balance = balance
-   @in_journey = false
+    @entry_station = nil
  end
 
 def top_up(money)
@@ -14,19 +14,26 @@ def top_up(money)
   @balance += money
 end
 
-def touch_in
+def touch_in(station)
   message = "You're poor, go and top up"
   fail message if @balance < MINIMUM_FARE
-  @in_journey = true
+  save(station)
 end
 
 def touch_out
   deduct
-  @in_journey = false
+  delete_entry
+end
+
+def save(station)
+  @entry_station = station
 end
 
 private
 
+def delete_entry
+  @entry_station = nil
+end
 
 def deduct(money = MINIMUM_FARE)
   @balance -= money
