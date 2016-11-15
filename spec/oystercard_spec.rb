@@ -24,4 +24,15 @@ it "should raise an error when a top up takes the balance over 90" do
   expect { subject.top_up(1) }.to raise_error("Top up too much. Maximum balance is £90. Current
   balance is #{subject.balance}")
 end
+
+it "should respond to 'fare'" do
+  expect(subject).to respond_to(:deduct)
+end
+
+it "should expect the balance to decrease when a fare is charged" do
+  subject.top_up(20)
+  subject.deduct(5)
+  expect(subject.balance).to eq 15
+end
+
 end
