@@ -16,9 +16,6 @@ class Oystercard
     self.balance += value
   end
 
-  def deduct(value)
-    self.balance -= value
-  end
 
   def touch_in
     raise "Not enough funds. Minimum is £#{MINIMUM_BALANCE}" if balance < MINIMUM_BALANCE
@@ -27,10 +24,17 @@ class Oystercard
 
   def touch_out
     self.status = :not_in_journey
+    deduct(1)
   end
 
   def in_journey?
     status == :in_journey
+  end
+
+  private
+  
+  def deduct(value)
+    self.balance -= value
   end
 
 end

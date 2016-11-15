@@ -14,12 +14,6 @@ describe Oystercard do
     expect{subject.top_up(95)}.to raise_error "Maximum balance limit of £90 exceeded"
   end
 
-  it 'should be able to deduct a given value from the balance' do
-    subject.top_up(40)
-    subject.deduct(30)
-    expect(subject.balance).to eq 10
-  end
-
   it 'tells us if the card is in use' do
     expect(subject.status).to be :not_in_journey
   end
@@ -47,6 +41,12 @@ describe Oystercard do
 
   it "prevents customer from touching in when card is below minumum balance" do
     expect{subject.touch_in}.to raise_error "Not enough funds. Minimum is £1"
+  end
+
+  it "should deduct a minumum fare when touching out" do
+    subject.top_up(5)
+    subject.touch_in
+    expect {subject.touch_out}.to change{subject.balance}.by(-1)
   end
 
 end
