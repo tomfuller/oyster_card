@@ -20,4 +20,28 @@ describe Oystercard do
     expect(subject.balance).to eq 10
   end
 
+  it 'tells us if the card is in use' do
+    expect(subject.status).to be :not_in_journey
+  end
+
+  it "touches in the card" do
+    subject.touch_in
+    expect(subject.status).to be :in_journey
+  end
+
+  it "touches out the card" do
+    subject.touch_out
+    expect(subject.status).to be :not_in_journey
+  end
+
+  it "checks card is not in journey" do
+    expect(subject.in_journey?).to eq false
+  end
+
+  it "checks card is in journey" do
+    subject.touch_in
+    expect(subject.in_journey?).to eq true
+  end
+
+
 end
