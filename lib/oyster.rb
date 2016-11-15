@@ -13,14 +13,21 @@ def top_up(money)
   @balance += money
 end
 
+
+def deduct(money)
+  message = "You're poor, go and top up"
+  fail message if overdrawn?(money)
+  @balance -= money
+end
+
+private
+
 def max_capacity?(money)
   @balance + money > MAX_CAPACITY
 end
 
-def deduct(money)
-  @balance -= money
+def overdrawn?(money)
+  @balance - money < 0
 end
-
-
 
 end
