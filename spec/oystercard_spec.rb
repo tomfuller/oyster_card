@@ -1,4 +1,6 @@
 require 'oystercard'
+require 'station'
+
 describe Oystercard do
 
   let(:entry_station){ double(:entry_station) }
