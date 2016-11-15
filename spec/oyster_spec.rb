@@ -10,6 +10,12 @@ describe Oyster do
 
     context "when the balance exceeds its limits, should raise an error" do
 
+      it "if there less balance then minimum journey fare, and we touch in" do
+        card.top_up(0.5)
+        message = "You're poor, go and top up"
+        expect{card.touch_in}.to raise_error(message)
+      end
+
       it " if we add more than 90 to the balance" do
         message = "The limit for topping up is 90 pounds"
         expect{card.top_up(91)}.to raise_error(message)
@@ -36,11 +42,13 @@ describe Oyster do
   end
 
   describe "When checking card status" do
+    before(:each) {card.top_up(10)}
     it "should return false as a default" do
       expect(card.in_journey).to eq false
     end
 
     it "should return true when on journey" do
+
       card.touch_in
       expect(card.in_journey).to eq true
     end
@@ -50,6 +58,7 @@ describe Oyster do
       expect(card.in_journey).to eq false
     end
   end
+
 
 
 end
