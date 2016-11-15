@@ -3,6 +3,8 @@ require "oystercard"
 describe Oystercard do
 
 
+context "Create a basic Oystercard" do
+
 it "should expect the balance to equal zero for a new card" do
   expect(subject.balance).to eq(0)
 end
@@ -21,9 +23,11 @@ end
 
 it "should expect the balance to decrease when a fare is charged" do
   subject.top_up(20)
-  subject.deduct(5)
-  expect(subject.balance).to eq 15
+  expect{subject.touch_out}.to change{subject.balance}.by(-1)
 end
+end
+
+context "Add touch-in touch-out functionality" do
 
 it "should respond to 'in_journey'" do
   expect(subject).to respond_to(:in_journey?)
@@ -34,6 +38,7 @@ it "should respond to 'touch_in'" do
 end
 
 it "should be in a journey after touching in" do
+subject.top_up(10)
 subject.touch_in
 expect(subject.in_journey).to be true
 end
@@ -45,6 +50,17 @@ end
 it "should be in a journey after touching out" do
 subject.touch_out
 expect(subject.in_journey).to be false
+end
+
+it "on touch in it should report an error
+when the balance is below the minimum amount" do
+expect{ subject.touch_in }.to raise_error("You do not have sufficient funds. Please top up your card.")
+end
+
+it "on touch out it should charge the card the minimum fare" do
+subject.top_up(6)
+expect{subject.touch_out}.to change{subject.balance}.by(-1)
+end
 end
 
 end
