@@ -35,5 +35,21 @@ describe Oyster do
 
   end
 
+  describe "When checking card status" do
+    it "should return false as a default" do
+      expect(card.in_journey).to eq false
+    end
+
+    it "should return true when on journey" do
+      card.touch_in
+      expect(card.in_journey).to eq true
+    end
+
+    it "should return false when touching out" do
+      card.touch_out
+      expect(card.in_journey).to eq false
+    end
+  end
+
 
 end
