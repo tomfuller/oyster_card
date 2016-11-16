@@ -44,12 +44,7 @@ describe Oyster do
 
     it "should return name of the start station when on journey" do
       card.touch_in(station)
-      expect(card.entry_station).to eq station
-    end
-
-    it "should return nil when touching out" do
-      card.touch_out(station)
-      expect(card.entry_station).to eq nil
+      expect(card.entry_station).to eq ["entry station", station]
     end
 
     it "should deduct minimum fare from the balance when checking out" do
@@ -69,7 +64,7 @@ describe Oyster do
     it "should save the entry station" do
 
       card.touch_in(station)
-      expect(card.entry_station).to eq station
+      expect(card.entry_station).to eq ["entry station", station]
     end
 
     it "should forget the entry station after check out" do
@@ -79,18 +74,19 @@ describe Oyster do
     end
 
     it "should forget the exit station after storing the journey" do
+      card.touch_in(station)
       card.touch_out(station)
       expect(card.exit_station).to eq nil
     end
 
     it "should have an empty list of journeys by default" do
-      expect(card.journeys).to be_empty
+      expect(card.journey).to be_empty
     end
 
     it "should store a journey" do
       card.touch_in(station)
       card.touch_out(station2)
-      expect(card.journeys[station]).to eq station2
+      expect(card.history).to eq [{"entry station" => station, "exit station" => station2}]
     end
   end
 
