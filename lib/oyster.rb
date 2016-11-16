@@ -1,5 +1,5 @@
 class Oyster
-attr_reader :in_journey, :journey, :history
+attr_reader :journey, :history
 attr_accessor :entry_station, :exit_station, :balance
 DEFAULT_BALANCE = 0
 MAX_CAPACITY = 90
@@ -15,12 +15,12 @@ MINIMUM_FARE = 1
 def top_up(money)
   message = "The limit for topping up is #{MAX_CAPACITY} pounds"
   fail message if max_capacity?(money)
-  @balance += money
+  self.balance += money
 end
 
 def touch_in(station)
   message = "You're poor, go and top up"
-  fail message if @balance < MINIMUM_FARE
+  fail message if self.balance < MINIMUM_FARE
   save_entry(station)
 end
 
@@ -38,12 +38,12 @@ end
 private
 
 def save_journey
-  journey << @entry_station
-  journey << @exit_station
+  journey << self.entry_station
+  journey << self.exit_station
 end
 
 def save_history
-  history << @journey.to_h
+  history << self.journey.to_h
 end
 
 def save_entry(station)
