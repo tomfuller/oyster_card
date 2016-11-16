@@ -63,4 +63,12 @@ expect{subject.touch_out}.to change{subject.balance}.by(-1)
 end
 end
 
+context "Record the journeys"
+
+it "An Oystercard should respond to station and return the station" do
+  expect(subject).to respond_to(:station)
+end
+
+#it "On touch in the station variable will update with a station"
+
 end
