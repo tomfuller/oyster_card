@@ -1,5 +1,6 @@
 class Oyster
-attr_reader :balance, :in_journey, :entry_station, :exit_station, :journey, :history
+attr_reader :in_journey, :journey, :history
+attr_accessor :entry_station, :exit_station, :balance
 DEFAULT_BALANCE = 0
 MAX_CAPACITY = 90
 MINIMUM_FARE = 1
@@ -37,36 +38,36 @@ end
 private
 
 def save_journey
-  @journey << @entry_station
-  @journey << @exit_station
+  journey << @entry_station
+  journey << @exit_station
 end
 
 def save_history
-  @history << @journey.to_h
+  history << @journey.to_h
 end
 
 def save_entry(station)
-  @entry_station = ["entry station", station]
+  self.entry_station = ["entry station", station]
 end
 
 def save_exit(station)
-  @exit_station = ["exit station", station]
+  self.exit_station = ["exit station", station]
 end
 
 def delete_entry
-  @entry_station = nil
+  self.entry_station = nil
 end
 
 def delete_exit
-  @exit_station = nil
+  self.exit_station = nil
 end
 
 def deduct(money = MINIMUM_FARE)
-  @balance -= money
+  self.balance -= money
 end
 
 def max_capacity?(money)
-  @balance + money > MAX_CAPACITY
+  balance + money > MAX_CAPACITY
 end
 
 end
