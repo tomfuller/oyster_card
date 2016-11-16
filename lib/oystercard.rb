@@ -9,12 +9,11 @@ def initialize
   @balance = 0
   @entry_station
   @journey_history = Hash.new
-
+  @journey_counter = 1
 end
 
 def top_up(amount)
-  fail "Top up too much. Maximum balance is £90. Current
-  balance is #{self.balance}" if @balance + amount > MAXIMUM_BALANCE
+  fail "Top up too much. Maximum balance is £90. Current balance is #{@balance}" if @balance + amount > MAXIMUM_BALANCE
   @balance += amount
 end
 
@@ -38,11 +37,12 @@ def touch_out(station)
 end
 
 def record_entry(station)
-  @journey_history["journey_1"] = { "entry" => station}
+  @journey_history["journey_#{@journey_counter}"] = { "entry" => station}
 end
 
 def record_exit(station)
-  @journey_history["journey_1"].merge!({ "exit" => station})
+  @journey_history["journey_#{@journey_counter}"].merge!({ "exit" => station})
+  @journey_counter += 1
 end
 
 private
