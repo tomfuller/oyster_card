@@ -2,6 +2,7 @@ require "oystercard"
 
 describe Oystercard do
 
+let(:station) { double :station }
 
 context "Create a basic Oystercard" do
 
@@ -39,7 +40,7 @@ end
 
 it "should be in a journey after touching in" do
 subject.top_up(10)
-subject.touch_in
+subject.touch_in(station)
 expect(subject.in_journey).to be true
 end
 
@@ -54,7 +55,7 @@ end
 
 it "on touch in it should report an error
 when the balance is below the minimum amount" do
-expect{ subject.touch_in }.to raise_error("You do not have sufficient funds. Please top up your card.")
+expect{ subject.touch_in(station) }.to raise_error("You do not have sufficient funds. Please top up your card.")
 end
 
 it "on touch out it should charge the card the minimum fare" do
@@ -66,9 +67,23 @@ end
 context "Record the journeys"
 
 it "An Oystercard should respond to station and return the station" do
-  expect(subject).to respond_to(:station)
+  expect(subject).to respond_to(:entry_station)
 end
 
-#it "On touch in the station variable will update with a station"
+it "touch in should have an argument" do
+  expect(subject).to respond_to(:touch_in).with(1).argument
+end
+
+it "on touch in the station will be updated" do
+  subject.top_up(10)
+  subject.touch_in(station)
+  expect(subject.entry_station).to eq station
+end
+
+it "on touch out the card will forget the station" do
+  subject.top_up(10)
+  subject.touch_in(station)
+  expect{subject.touch_out}.to change{subject.entry_station}.to(nil)
+end
 
 end
