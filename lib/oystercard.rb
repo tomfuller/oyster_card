@@ -1,18 +1,16 @@
 require_relative 'station'
+require_relative 'journey_log'
 
 class Oystercard
 
   DEFAULT_VALUE = 0
   MAXIMUM_BALANCE = 90
   MINIMUM_BALANCE = 1
-  attr_accessor :balance, :stored_station, :stored_exit_station
-  attr_reader :journey_history, :journey
+  attr_accessor :balance
 
 
   def initialize
     @balance = DEFAULT_VALUE
-    @journey = []
-    @journey_history = []
   end
 
   def top_up(value)
@@ -22,22 +20,10 @@ class Oystercard
 
   def touch_in(entry_station)
     raise "Not enough funds. Minimum is £#{MINIMUM_BALANCE}" if balance < MINIMUM_BALANCE
-    self.journey << ['Entry station', entry_station]
   end
 
   def touch_out(exit_station)
-    deduct(1)
-    self.journey << ['Exit station', exit_station]
-    save_journey_to_history
-  end
-
-  def in_journey?
-    journey.count % 2 != 0
-  end
-
-  def save_journey_to_history
-    journey_history << journey.to_h
-    journey.clear
+    deduct(MINIMUM_BALANCE)
   end
 
   private
