@@ -1,14 +1,15 @@
 class JourneyLog
 
-  attr_reader :journey, :current_journey_stations, :journey_history
-
-  def initialize(journey_klass)
-    @journey = journey_klass.new
+  attr_reader :current_journey_stations, :journey_history
+  attr_accessor :journey
+  def initialize
     @current_journey_stations = []
     @journey_history = []
+    @journey = false
   end
 
   def start(entry_station)
+    create_new_journey(Journey)
     begin_journey
     self.current_journey_stations << ["Entry Station", entry_station]
   end
@@ -23,6 +24,7 @@ class JourneyLog
   end
 
   def finish(exit_station)
+    current_journey if self.journey == false
     end_journey
     self.current_journey_stations << ["Exit Station", exit_station]
   end
@@ -35,9 +37,12 @@ class JourneyLog
     self.journey_history << self.current_journey_stations.to_h
   end
 
-  private
+  def create_new_journey(journey_klass)
+    self.journey = journey_klass.new
+  end
 
   def journey_started?
+    create_new_journey(Journey) if self.journey == false
     self.journey.start_journey
   end
 
