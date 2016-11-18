@@ -31,10 +31,6 @@ describe Oystercard do
 
   context "Add touch-in touch-out functionality" do
 
-    it "should respond to 'in_journey'" do
-      expect(subject).to respond_to(:in_journey?)
-    end
-
     it "should respond to 'touch_in'" do
       expect(subject).to respond_to(:touch_in)
     end
@@ -56,15 +52,6 @@ describe Oystercard do
     subject.touch_in(station)
   end
 
-    it "should be in a journey after touching in" do
-      expect(subject.in_journey?).to be true
-    end
-
-
-    it "should not be in a journey after touching out" do
-      subject.touch_out(station)
-      expect(subject.in_journey?).to be false
-    end
 
     it "on touch out it should charge the card the minimum fare" do
       expect{subject.touch_out(station)}.to change{subject.balance}.by(-1)
@@ -74,7 +61,7 @@ describe Oystercard do
   context "Record the journeys" do
 
     it "should be able to see journey history" do
-      expect(subject.journey_history).to eq({})
+      expect(subject.journey_history).to eq([])
     end
 
 
@@ -96,12 +83,12 @@ describe Oystercard do
 
 
     it "should be able to see an updated journey history when we touch in" do
-      expect(subject.journey_history["journey_1"]).to eq ({"entry"=>station})
+      expect(subject.current_journey).to eq ([["entry",station]])
     end
 
     it " should be able to see the updated journey history when we touch out" do
       subject.touch_out(station)
-      expect(subject.journey_history["journey_1"]).to eq ({"entry"=>station, "exit"=>station})
+      expect(subject.journey_history).to eq ([{"entry"=>station, "exit"=>station}])
     end
   end
   end
