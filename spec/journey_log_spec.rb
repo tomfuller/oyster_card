@@ -16,19 +16,15 @@ describe JourneyLog do
     end
 
     it "should have an array to temp store current journey" do
-      expect(journey_log.current_journey).to eq []
+      expect(journey_log.journey_tracker).to eq []
     end
   end
 
   context "Starting a new journey" do
 
-    it "should return a new instance of a journey" do
-      expect(journey_log.start(entry_station)).to be_a(Journey)
-    end
-
     it "should save entry station to current journey" do
       journey_log.start(entry_station)
-      expect(journey_log.current_journey).to eq ([["entry", entry_station]])
+      expect(journey_log.journey_tracker).to eq ([["entry", entry_station]])
     end
   end
 
