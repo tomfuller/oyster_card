@@ -1,13 +1,12 @@
 class Oystercard
 
-attr_accessor :balance, :entry_station, :journey_history, :current_journey
+attr_accessor :balance, :entry_station, :journey_history
 
 MAXIMUM_BALANCE = 90
 MINIMUM_BALANCE = 1
 
   def initialize
     @balance = 0
-    @current_journey = []
   end
 
   def top_up(amount)
@@ -31,23 +30,10 @@ MINIMUM_BALANCE = 1
     save_current_journey_to_history
   end
 
-  def record_entry(station)
-    self.current_journey << ["entry", station]
-  end
-
-  def record_exit(station)
-    self.current_journey << ["exit", station]
-  end
-
   private
 
     def deduct
       self.balance -= MINIMUM_BALANCE
-    end
-
-    def save_current_journey_to_history
-      self.journey_history << self.current_journey.to_h
-      self.current_journey.clear
     end
 
 end

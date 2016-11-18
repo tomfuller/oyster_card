@@ -82,10 +82,6 @@ describe Oystercard do
     end
 
 
-    it "should be able to see an updated journey history when we touch in" do
-      expect(subject.current_journey).to eq ([["entry",station]])
-    end
-
     it " should be able to see the updated journey history when we touch out" do
       subject.touch_out(station)
       expect(subject.journey_history).to eq ([{"entry"=>station, "exit"=>station}])
